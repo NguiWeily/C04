@@ -1,0 +1,54 @@
+Files to turn in : ft_putnbr.c
+Allowed functions : write
+
+• Create a function that displays the number entered as a parameter. The function
+has to be able to display all possible values within an int type variable.
+• Here’s how it should be prototyped :
+void ft_putnbr(int nb);
+
+• For example:
+◦ ft_putnbr(42) displays "42".
+
+Certainly! Here's an implementation of the `ft_putnbr` function that displays an integer on the standard output:
+
+```c
+#include <unistd.h>
+
+void ft_putchar(char c)
+{
+    write(1, &c, 1);
+}
+
+void ft_putnbr(int nb)
+{
+    if (nb < 0)
+    {
+        ft_putchar('-');
+        nb = -nb;
+    }
+
+    if (nb >= 10)
+    {
+        ft_putnbr(nb / 10);
+        ft_putnbr(nb % 10);
+    }
+    else
+    {
+        ft_putchar(nb + '0');
+    }
+}
+```
+
+In this implementation, the `ft_putnbr` function takes an integer `nb` as its parameter and displays it on the standard output.
+
+The function first checks if the number is negative. If so, it writes a `'-'` character to indicate the negative sign and changes the value of `nb` to its absolute value by negating it.
+
+Next, the function checks if the number is greater than or equal to 10. If it is, it recursively calls `ft_putnbr` with the quotient `nb / 10` to display the remaining digits and then calls `ft_putnbr` with the remainder `nb % 10` to display the last digit. This recursive approach effectively breaks down the number into its individual digits and displays them in the correct order.
+
+If the number is less than 10, it is a single-digit number, and the function simply writes the corresponding character by adding `'0'` to the number (`nb + '0'`). This converts the numerical value to its ASCII representation.
+
+The function relies on the `ft_putchar` function to write characters to the standard output. The `ft_putchar` function uses the `write` function to write a single character to the standard output.
+
+By calling `ft_putnbr` with an integer argument, the function will display the number on the screen.
+
+Please note that this implementation assumes that the `int` type has a range sufficient to represent all possible integer values within the specified range.
