@@ -1,0 +1,33 @@
+Files to turn in : ft_putstr.c
+Allowed functions : write
+
+• Create a function that displays a string of characters on the standard output.
+• Here’s how it should be prototyped :
+void ft_putstr(char *str);
+
+Certainly! Here's an implementation of the `ft_putstr` function that displays a string of characters on the standard output:
+
+```c
+#include <unistd.h>
+
+void ft_putstr(char *str)
+{
+    int i = 0;
+
+    while (str[i] != '\0')
+    {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
+```
+
+In this implementation, the `ft_putstr` function takes a pointer to a null-terminated string `str` as its parameter.
+
+The function uses a while loop to iterate through the characters of the string. Inside the loop, it uses the `write` function to write each character to the standard output. The `write` function takes three arguments: the file descriptor (in this case, `1` represents the standard output), a pointer to the character to write (`&str[i]`), and the number of bytes to write (`1`).
+
+The loop continues until the null terminator (`'\0'`) is encountered, indicating the end of the string.
+
+By repeatedly writing each character to the standard output, the `ft_putstr` function effectively displays the string on the screen.
+
+Please note that this implementation assumes that the input string is null-terminated, as is the convention in C. Additionally, the `ft_putstr` function relies on the `write` function from the `<unistd.h>` header to output the characters to the standard output.
