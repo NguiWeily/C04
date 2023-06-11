@@ -1,0 +1,63 @@
+Files to turn in : ft_atoi.c
+Allowed functions : None
+
+• Write a function that converts the initial portion of the string pointed by str to its int
+representation
+• The string can start with an arbitray amount of white space (as determined by isspace(3))
+• The string can be followed by an arbitrary amount of + and - signs, - sign will change
+the sign of the int returned based on the number of - is odd or even.
+• Finally the string can be followed by any numbers of the base 10.
+• Your function should read the string until the string stop following the rules and return
+the number found until now.
+• You should not take care of overflow or underflow. result can be undefined in that case.
+• Here’s an example of a program that prints the atoi return value:
+$>./a.out " ---+--+1234ab567"
+-1234
+• Here’s how it should be prototyped :
+int ft_atoi(char *str);
+
+Certainly! Here's an implementation of the `ft_atoi` function that converts a string to its corresponding integer representation:
+
+```c
+#include <ctype.h>
+
+int ft_atoi(char *str)
+{
+    int sign = 1;
+    int result = 0;
+    int i = 0;
+
+    // Skip leading whitespace
+    while (isspace(str[i]))
+        i++;
+
+    // Check for optional sign
+    if (str[i] == '-' || str[i] == '+')
+    {
+        if (str[i] == '-')
+            sign = -1;
+        i++;
+    }
+
+    // Process digits until a non-digit character is encountered
+    while (isdigit(str[i]))
+    {
+        result = result * 10 + (str[i] - '0');
+        i++;
+    }
+
+    return result * sign;
+}
+```
+
+In this implementation, the `ft_atoi` function takes a pointer to a string `str` as its parameter and returns the corresponding integer value.
+
+The function starts by skipping any leading whitespace characters using the `isspace` function from the `<ctype.h>` header.
+
+Next, it checks for an optional sign character ('-' or '+'). If a '-' sign is encountered, the `sign` variable is set to -1 to indicate a negative value.
+
+The function then processes the digits in the string until a non-digit character is encountered. It iterates over the characters using a while loop and converts each digit character to its numerical value by subtracting the character '0'. It accumulates the result by multiplying the current value by 10 and adding the numerical value of the digit.
+
+Finally, the function returns the calculated result multiplied by the sign to handle negative numbers.
+
+Please note that this implementation does not handle cases of overflow or underflow, and the behavior is undefined if the result exceeds the range of the `int` data type.
