@@ -1,0 +1,92 @@
+Files to turn in : ft_putnbr_base.c
+Allowed functions : write
+
+• Create a function that displays a number in a base system in the terminal.
+• This number is given in the shape of an int, and the radix in the shape of a string
+of characters.
+• The base-system contains all useable symbols to display that number :
+◦ 0123456789 is the commonly used base system to represent decimal numbers
+◦ 01 is a binary base system ;
+◦ 0123456789ABCDEF an hexadecimal base system ;
+◦ poneyvif is an octal base system.
+• The function must handle negative numbers.
+• If there’s an invalid argument, nothing should be displayed. Examples of invalid
+arguments :
+◦ base is empty or size of 1;
+◦ base contains the same character twice ;
+◦ base contains + or - ;
+• Here’s how it should be prototyped :
+
+void ft_putnbr_base(int nbr, char *base);
+
+Certainly! Here's an implementation of the `ft_putnbr_base` function that displays a number in a given base system:
+
+```c
+#include <unistd.h>
+
+int ft_strlen(char *str)
+{
+    int length = 0;
+    while (str[length] != '\0')
+        length++;
+    return length;
+}
+
+int ft_is_valid_base(char *base)
+{
+    int i = 0;
+    int j;
+
+    if (ft_strlen(base) < 2)
+        return 0;
+
+    while (base[i] != '\0')
+    {
+        if (base[i] == '+' || base[i] == '-')
+            return 0;
+        j = i + 1;
+        while (base[j] != '\0')
+        {
+            if (base[i] == base[j])
+                return 0;
+            j++;
+        }
+        i++;
+    }
+
+    return 1;
+}
+
+void ft_putnbr_base(int nbr, char *base)
+{
+    if (!ft_is_valid_base(base))
+        return;
+
+    int base_length = ft_strlen(base);
+
+    if (nbr < 0)
+    {
+        write(1, "-", 1);
+        nbr = -nbr;
+    }
+
+    if (nbr >= base_length)
+        ft_putnbr_base(nbr / base_length, base);
+
+    write(1, &base[nbr % base_length], 1);
+}
+```
+
+In this implementation, the `ft_putnbr_base` function takes an integer `nbr` and a string `base` as parameters. It displays the number `nbr` in the specified base system using the symbols in the `base` string.
+
+The function starts by checking the validity of the base system using the `ft_is_valid_base` function. This function verifies that the base is not empty, does not contain duplicate characters, and does not contain the characters '+' or '-'.
+
+If the base is invalid, the function simply returns without displaying anything.
+
+If the number `nbr` is negative, the function writes a '-' character to indicate a negative number and then makes `nbr` positive by negating it.
+
+The function recursively calls itself with `nbr / base_length` to handle the conversion of the remaining digits.
+
+Finally, it writes the corresponding symbol from the `base` string for the current digit by using the remainder of `nbr` divided by `base_length`.
+
+Please note that this implementation assumes that the base string is null-terminated and does not handle cases where the `nbr` parameter is 0. You may need to add additional error handling or modify the function to suit your specific requirements.
