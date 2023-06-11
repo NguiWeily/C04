@@ -1,0 +1,31 @@
+Files to turn in : ft_strlen.c
+Allowed functions : None
+
+• Create a function that counts and returns the number of characters in a string.
+• Here’s how it should be prototyped :
+int ft_strlen(char *str);
+
+Certainly! Here's an implementation of the `ft_strlen` function that counts and returns the number of characters in a string:
+
+```c
+int ft_strlen(char *str)
+{
+    int length = 0;
+
+    while (*str)
+    {
+        length++;
+        str++;
+    }
+
+    return length;
+}
+```
+
+In this implementation, the `ft_strlen` function takes a pointer to a null-terminated string `str` as its parameter.
+
+The function uses a while loop to iterate through the characters of the string. It increments the `length` variable for each character encountered in the string by dereferencing the `str` pointer and incrementing it. The loop continues until the null terminator (`'\0'`) is reached, indicating the end of the string.
+
+Once the loop completes, the function returns the value of the `length` variable, which represents the number of characters in the string.
+
+Please note that this implementation assumes that the input string is null-terminated, as is the convention in C.
