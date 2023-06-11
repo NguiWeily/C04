@@ -1,0 +1,114 @@
+Files to turn in : ft_atoi_base.c
+Allowed functions : None
+
+• Write a function that converts the initial portion of the string pointed by str to int
+representation.
+• str is in a specific base given as a second parameter.
+• excepted the base rule, the function should work exactly like ft_atoi.
+• If there’s an invalid argument, the function should return 0. Examples of invalid
+arguments :
+◦ base is empty or size of 1;
+◦ base contains the same character twice ;
+◦ base contains + or - or whitespaces;
+• Here’s how it should be prototyped :
+int ft_atoi_base(char *str, char *base);
+
+Here's an implementation of the `ft_atoi_base` function that converts a string to an integer representation based on a given base:
+
+```c
+int ft_strlen(char *str)
+{
+    int length = 0;
+    while (str[length] != '\0')
+        length++;
+    return length;
+}
+
+int ft_is_valid_base(char *base)
+{
+    int i = 0;
+    int j;
+
+    if (ft_strlen(base) < 2)
+        return 0;
+
+    while (base[i] != '\0')
+    {
+        if (base[i] == '+' || base[i] == '-' || base[i] == ' ' || base[i] == '\t' ||
+            base[i] == '\n' || base[i] == '\v' || base[i] == '\f' || base[i] == '\r')
+            return 0;
+
+        j = i + 1;
+        while (base[j] != '\0')
+        {
+            if (base[i] == base[j])
+                return 0;
+            j++;
+        }
+        i++;
+    }
+
+    return 1;
+}
+
+int ft_get_digit_value(char c, char *base)
+{
+    int i = 0;
+    while (base[i] != '\0')
+    {
+        if (base[i] == c)
+            return i;
+        i++;
+    }
+    return -1;
+}
+
+int ft_atoi_base(char *str, char *base)
+{
+    if (!ft_is_valid_base(base))
+        return 0;
+
+    int base_length = ft_strlen(base);
+    int result = 0;
+    int sign = 1;
+    int i = 0;
+
+    while ((str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
+            str[i] == '\v' || str[i] == '\f' || str[i] == '\r') && str[i] != '\0')
+        i++;
+
+    if (str[i] == '-' || str[i] == '+')
+    {
+        if (str[i] == '-')
+            sign = -1;
+        i++;
+    }
+
+    while (str[i] != '\0')
+    {
+        int digit_value = ft_get_digit_value(str[i], base);
+        if (digit_value == -1)
+            break;
+        result = result * base_length + digit_value;
+        i++;
+    }
+
+    return sign * result;
+}
+```
+
+In this implementation, the `ft_atoi_base` function takes a string `str` and a string `base` as parameters. It converts the initial portion of the `str` to its integer representation based on the specified `base`.
+
+The function starts by checking the validity of the base using the `ft_is_valid_base` function. This function verifies that the base is not empty, does not contain duplicate characters, and does not contain characters such as '+', '-', or whitespace characters.
+
+If the base is invalid, the function returns 0.
+
+The function then skips leading whitespace characters in the `str` and handles the sign (+/-) if present.
+
+It iterates through the remaining characters in the `str` and calculates the corresponding integer value based on the base. The `ft_get_digit_value` function is used to find the value of a digit character in the base.
+
+The result is accumulated by multiplying the previous result by the base length and adding the value of the current digit.
+
+Finally, the result is multiplied by the sign and returned.
+
+Please note that this implementation assumes that the base and the input string are null-terminated. It also does not handle cases where the base is empty or size 1, as specified in the requirements. You may need to add additional error handling or modify the function
